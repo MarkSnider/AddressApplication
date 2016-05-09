@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Email" table="email">
+		<meta attribute="class-description">This class contains student's phone number
+			details.</meta>
+		<id name="emailId" type="long" column="EMAIL_ID">
+			<generator class="native" />
+		</id>
+		<property name="emailType" type="string" length="10" column="EMAIL_TYPE" />
+		<property name="emailAddr" type="string" length="100" column="EMAIL_ADDR" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 19, 2010 4:08:57 PM by Hibernate Tools 3.2.5.Beta -->
+<hibernate-mapping>
+    <class name="com.dao.ShowDetail" table="show_detail">
+        <id name="showId" type="java.lang.Integer">
+            <column name="SHOW_ID" />
+            <generator class="foreign">
+                <param name="property">radioShow</param>
+            </generator>
+        </id>
+        <one-to-one name="radioShow" class="com.dao.RadioShow" constrained="true"></one-to-one>
+
+        <property name="description" type="string">
+            <column name="DESCRIPTION" />
+        </property>
+        
+        <property name="archiveListens" type="integer">
+            <column name="ARCHIVE_LISTENS" />
+        </property>
+ 
+         <property name="liveListens" type="integer">
+            <column name="LIVE_LISTENS" />
+        </property>
+               
+        <property name="listedDate" type="date">
+            <column name="LISTED_DATE" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

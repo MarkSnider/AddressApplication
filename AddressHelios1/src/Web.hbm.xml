@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Web" table="WEB">
+		<meta attribute="class-description">This class contains student's web
+			details.</meta>
+		<id name="webid" type="long" column="WEB_ID">
+			<generator class="native" />
+		</id>
+
+		<property name="url" type="string" length="255" column="WEB_URL" />
+	</class>
+</hibernate-mapping>

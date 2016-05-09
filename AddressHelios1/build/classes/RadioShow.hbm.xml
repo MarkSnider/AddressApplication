@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 17, 2010 10:39:42 AM by Hibernate Tools 3.2.5.Beta -->
+<hibernate-mapping>
+	<class name="com.dao.RadioShow" table="RADIOSHOW">
+		<meta attribute="class-description">This class radio show information </meta>
+		<id name="showId" type="long" column="SHOW_ID">
+			<generator class="native" />
+		</id>
+		<property name="title" type="string" length="255" column="TITLE" />
+		<property name="description" type="string" length="255" column="DESCRIPTION" />
+		<property name="archiveListens" type="integer" column="ARCHIVE_LISTENS" />
+		<property name="liveListens" type="integer"  column="LIVE_LISTENS" />
+		<property name="listedDate"  type="date" length="10" not-null="true" column="LISTED_DATE" />	
+					
+	</class>
+</hibernate-mapping>

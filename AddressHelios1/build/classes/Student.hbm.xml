@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.dao.Student" table="STUDENT">
+        <meta attribute="class-description">This class contains student details.</meta>
+        <id name="studentId" type="long" column="STUDENT_ID">
+            <generator class="identity" />
+        </id>
+        <property name="studentName" type="string" length="100" not-null="true" column="STUDENT_NAME" />
+        <property name="studentInfo" type="string" length="255" not-null="false" column="STUDENT_INFO" />
+        <property name="studentType" type="string" length="100" not-null="false" column="STUDENT_TYPE" />
+        
+        <many-to-one name="studentAddress" class="com.dao.Address" column="STUDENT_ADDRESS" cascade="all" not-null="true" />
+
+        <set name="studentPhoneNumbers" table="STUDENT_PHONE" cascade="all">
+			<key column="STUDENT_ID" />
+			<many-to-many column="PHONE_ID" unique="true" class="com.dao.Phone" />
+		</set>
+        <set name="studentEmailAddresses" table="STUDENT_EMAIL" cascade="all">
+			<key column="STUDENT_ID" />
+			<many-to-many column="EMAIL_ID" unique="true" class="com.dao.Email" />
+		</set>
+		
+	    <set name="studentWebAddresses" table="STUDENT_WEB" cascade="all">
+			<key column="STUDENT_ID" />
+			<many-to-many column="WEB_ID" unique="true" class="com.dao.Web" />
+		</set>
+		
+	    <set name="studentRadioShows" table="STUDENT_RADIOSHOW" cascade="all">
+			<key column="STUDENT_ID" />
+			<many-to-many column="SHOW_ID" unique="true" class="com.dao.RadioShow" />
+		</set>		
+
+    </class>
+</hibernate-mapping>

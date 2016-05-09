@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+
+<struts-config>
+    <form-beans>
+        <form-bean name="InputForm" type="com.forms.InputForm"/>
+        <form-bean name="EditForm" type="com.forms.EditForm"  />
+        <form-bean name="DeleteForm" type="com.forms.DeleteForm" />
+        <form-bean name="SearchForm" type="com.forms.SearchForm" />
+        <form-bean name="UserForm" type="com.forms.UserForm" />
+        <form-bean name="RadioShowForm" type="com.forms.RadioShowForm" />
+        <form-bean name="SearchContact251Form" type="com.forms.SearchContact251Form" />
+        <form-bean name="PleiadeanMissionForm" type="com.forms.PleiadeanMissionForm" />
+         <form-bean name="FileUploadForm" type="com.forms.FileUploadForm" />
+         
+         <form-bean name="SaveEditForm" type="com.forms.SaveEditForm"/>
+         
+        
+    </form-beans>
+    
+    <global-exceptions>
+    
+    </global-exceptions>
+
+    <global-forwards>
+         <forward name="edit" path="/Edit.jsp" redirect="false" />
+         <forward name="delete" path="/Delete.jsp" redirect="false" />
+         <forward name="search" path="/Search.jsp" redirect="false" /> 
+         <forward name="page" path="/PageForward.jsp" redirect="false" />
+         <forward name="help" path="/Help.jsp"  />   
+             
+    </global-forwards>
+
+    <action-mappings>
+         <action input="/PleiadeanMissionDisplay.jsp" parameter="method" name="PleiadeanMissionForm" path="/displayPleiadean" scope="session" type="com.actions.PleiadeanMissionAction">
+            <forward name="successlike" path="/PleiadeanMissionDisplay.jsp"  />
+            <forward name="successexpand" path="/PleiadianMissionExpand.jsp"  />
+        </action>        
+         <action input="/Contact251DisplayLike.jsp" parameter="method" name="SearchContact251Form" path="/display251" scope="session" type="com.actions.Contact251Action">
+            <forward name="success" path="/Contact251Display.jsp"  />
+            <forward name="successlike" path="/Contact251DisplayLike.jsp"  />
+             <forward name="successexpand" path="/Contact251Expand.jsp"  />
+        </action>     
+        <action input="/RadioShow.jsp" parameter="method" name="RadioShowForm" path="/Radio" scope="session" type="com.actions.RadioAction">
+            <forward name="success" path="/Edit.jsp" />
+            <forward name="add" path="/RadioShow.jsp"  />
+            <forward name="error" path="/Error.jsp"  />
+            <forward name="list" path="/ListRadioShow.jsp"  />
+            <forward name="guest" path="/ListGuests.jsp"  />
+            <forward name="delete" path="/DeleteRadioShow.jsp"  />
+             <forward name="sorted" path="/Edit.jsp" />
+        </action>    
+        <action input="/input.jsp" parameter="method" name="HelpForm" path="/helpAction" scope="session" type="com.actions.HelpAction">
+            <forward name="success" path="/input.jsp" />
+            <forward name="error" path="/Error.jsp"  />
+        </action> 
+       <action input="/" name="UserForm" path="/userAction" scope="session" type="com.actions.UserAction">
+            <forward name="success" path="/user.jsp" />
+        </action>
+        <action input="/Upload.jsp" parameter="method" name="FileUploadForm" path="/UploadFile" scope="session" type="com.actions.FileUploadAction">
+            <forward name="success" path="/DisplayFile.jsp" />
+        </action>        
+        <action input="/input.jsp" parameter="method" name="InputForm" path="/inputAction" scope="session" type="com.actions.InputAction">
+            <forward name="success" path="/input.jsp" />
+            <forward name="radio" path="/RadioShow.jsp" />
+            <forward name="error" path="/Error.jsp"  />
+            <forward name="test" path="/Test.jsp"  />
+            <forward name="test2" path="/ButtonExample.jsp"  />
+            <forward name="help" path="/Help.jsp"  />
+            <forward name="upload" path="/Upload.jsp"  />
+            <forward name="datatable" path="/DataTable.jsp"  />
+            <forward name="displayemail" path="/DisplayEmail.jsp"  />
+            <forward name="edit" path="/Edit.jsp"  />
+<!--             <forward name="editpage" path="/EditPageSmall.jsp" /> -->
+            
+        </action>
+        <action input="/input.jsp" parameter="method" name="InputForm" path="/search251" scope="session" type="com.actions.Search251Action">
+            <forward name="success" path="/List251Info.jsp" />
+        </action>        
+        
+        <!-- This is called when the user presses save on the Edit Screen -->
+        
+        <action input="/EditPageSmall.jsp" parameter="method" name="SaveEditForm" path="/SaveEdit" scope="session" type="com.actions.SaveAction">
+            <forward name="success" path="/EditPageSmall.jsp" />
+            <forward name="datatable" path="/DataTable.jsp"  />
+            <forward name="error" path="/Error.jsp"  />
+        </action> 
+ 
+         <action input="/Edit.jsp" parameter="method" name="EditForm" path="/Edit" scope="session" type="com.actions.EditAction">
+            <forward name="success" path="/input.jsp" />
+            <forward name="error" path="/Error.jsp"  />
+        </action> 
+               
+        <action input="/Delete.jsp" parameter="method" name="DeleteForm" path="/Delete" scope="session" type="com.actions.DeleteAction">
+            <forward name="success" path="/input.jsp" />
+            <forward name="error" path="/Error.jsp"  />
+        </action> 
+        <action input="/Search.jsp" parameter="method" name="SearchForm" path="/Search" scope="session" type="com.actions.SearchAction">
+            <forward name="success" path="/input.jsp" />
+            <forward name="error" path="/Error.jsp"  />
+        </action>        
+    </action-mappings>
+    
+    <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
+
+    <message-resources parameter="com/actions/ApplicationResource"/>
+    
+    <!-- ========================= Tiles plugin ===============================-->
+    <!--
+    This plugin initialize Tiles definition factory. This later can takes some
+    parameters explained here after. The plugin first read parameters from
+    web.xml, thenoverload them with parameters defined here. All parameters
+    are optional.
+    The plugin should be declared in each struts-config file.
+    - definitions-config: (optional)
+    Specify configuration file names. There can be several comma
+    separated file names (default: ?? )
+    - moduleAware: (optional - struts1.1)
+    Specify if the Tiles definition factory is module aware. If true
+    (default), there will be one factory for each Struts module.
+    If false, there will be one common factory for all module. In this
+    later case, it is still needed to declare one plugin per module.
+    The factory will be initialized with parameters found in the first
+    initialized plugin (generally the one associated with the default
+    module).
+    true : One factory per module. (default)
+    false : one single shared factory for all modules
+    - definitions-parser-validate: (optional)
+    Specify if xml parser should validate the Tiles configuration file.
+    true : validate. DTD should be specified in file header (default)
+    false : no validation
+
+    Paths found in Tiles definitions are relative to the main context.
+    -->
+    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />      
+        <set-property property="moduleAware" value="true" />
+    </plug-in>
+    
+    <!-- ========================= Validator plugin ================================= -->
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+  
+</struts-config>

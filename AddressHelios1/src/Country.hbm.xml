@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Country" table="COUNTRY">
+		<meta attribute="class-description">Country information</meta>
+		<id name="countryid" type="long" column="COUNTRY_ID">
+			<generator class="native" />
+		</id>
+		<property name="countryName"  type="string"  length="255" column="COUNTRY_NAME"  />
+		
+	</class>
+</hibernate-mapping>

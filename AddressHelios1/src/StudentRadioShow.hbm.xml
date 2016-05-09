@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.StudentRadioShow" table="STUDENT_RADIOSHOW">
+	
+		<meta attribute="class-description">This class contains student's radio show</meta>
+			
+		<id name="radioShowId" type="long" column="SHOW_ID">
+			<generator class="native" />
+		</id>
+		<property name="studentId"  type="long"  column="STUDENT_ID"  />
+	</class>
+</hibernate-mapping>
+

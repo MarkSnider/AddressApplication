@@ -1,0 +1,620 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Address" table="ADDRESS">
+		<meta attribute="class-description">This class contains the student's address
+			details.</meta>
+		<id name="addressId" type="long" column="ADDRESS_ID">
+			<generator class="native" />
+		</id>
+		<property name="street" column="ADDRESS_STREET" type="string" length="250" />
+		<property name="city" column="ADDRESS_CITY" type="string" length="50" />
+		<property name="state" column="ADDRESS_STATE" type="string" length="50" />
+		<property name="country" column="ADDRESS_COUNTRY" type="string" length="255" />
+		<property name="zipcode" column="ADDRESS_ZIPCODE" type="string" length="10" />
+		
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping package="com.dao">
+    <class name="City" table="city">
+    
+        <id name="cityid" column="cityid">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="name"  type="string"  column="name"  />
+		<property name="customerid"  type="integer"  column="customerid"  />
+                 
+    </class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Contact251" table="CONTACT251">
+		<meta attribute="class-description">This class contains the Contact object
+			details.</meta>
+		<id name="contact251Id" type="long" column="CONTACT251_ID">
+			<generator class="native" />
+		</id>
+		<property name="keyNumber1" column="KEYNUMBER1" type="long"  />
+		<property name="keyNumber2" column="KEYNUMBER2" type="long"  />
+		<property name="lineNumber" column="LINENUMBER" type="long"  />
+		<property name="info" column="INFO" type="string" length="1048" />
+		
+		
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Country" table="COUNTRY">
+		<meta attribute="class-description">Country information</meta>
+		<id name="countryid" type="long" column="COUNTRY_ID">
+			<generator class="native" />
+		</id>
+		<property name="countryName"  type="string"  length="255" column="COUNTRY_NAME"  />
+		
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.main">
+  <class name="customers" table="customers">
+  
+        <id name="customerid" column="customerid">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="lastname" type="string" column="lastname" />
+        <property name="firstname" type="string" column="firstname" />
+        <property name="middlename" type="string" column="middlename" />
+        
+        <set name="emailAddresses" table="email">
+            <key column="customerid"/>
+            <element type="string" column="EMAIL_ADDR"/>
+        </set>         
+        
+        <set name="phoneNumbers" table="phone">
+            <key column="customerid"/>
+            <element type="string" column="phone_number"/>
+        </set> 
+        
+        <set name="cities" table="city">
+            <key column="customerid"/>
+            <element type="string" column="name"/>
+        </set>
+                 
+        <set name="streets" table="address">
+            <key column="customerid"/>
+            <element type="string" column="street"/>
+        </set>
+        
+        <set name="states" table="state">
+            <key column="customerid"/>
+            <element type="string" column="name"/>
+        </set>        
+     
+        <set name="zips" table="zip">
+            <key column="customerid"/>
+            <element type="string" column="zipcode"/>
+        </set>        
+  </class>
+</hibernate-mapping>
+DROP TABLE IF EXISTS `employees`.`address`;
+CREATE TABLE  `employees`.`address` (
+  `ADDRESS_ID` int(32) NOT NULL auto_increment,
+  `ADDRESS_STREET` varchar(250) default NULL,
+  `ADDRESS_CITY` varchar(50) default NULL,
+  `ADDRESS_STATE` varchar(50) default NULL,
+  `ADDRESS_ZIPCODE` varchar(10) default NULL,
+  PRIMARY KEY  (`ADDRESS_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+ALTER TABLE Address ADD ADDRESS_COUNTRY varchar(255) default NULL
+ALTER TABLE STUDENT ADD STUDENT_TYPE varchar(100) default NULL
+ALTER TABLE STUDENT DROP COLUMN STUDENT_INFO
+ALTER TABLE STUDENT ADD STUDENT_INFO text default NULL
+
+DROP TABLE IF EXISTS `employees`.`student`;
+CREATE TABLE  `employees`.`student` (
+  `STUDENT_ID` int(32) NOT NULL auto_increment,
+  `STUDENT_NAME` varchar(100) default NULL,
+  `STUDENT_ADDRESS` int(11) NOT NULL,
+  `STUDENT_TYPE` varchar(100) default NULL,
+  `STUDENT_INFO` text,
+  PRIMARY KEY  (`STUDENT_ID`),
+  KEY `fk_PerAddress` (`STUDENT_ADDRESS`),
+  CONSTRAINT `fk_PerAddress` FOREIGN KEY (`STUDENT_ADDRESS`) REFERENCES `address` (`ADDRESS_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `employees`.`student_phone`;
+CREATE TABLE  `employees`.`student_phone` (
+  `STUDENT_ID` int(32) NOT NULL,
+  `PHONE_ID` int(32) NOT NULL,
+  KEY `fk_PerStudentPhone` (`STUDENT_ID`),
+  CONSTRAINT `fk_PerStudentPhone` FOREIGN KEY (`STUDENT_ID`) REFERENCES `student` (`STUDENT_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- This index was created as an attempt to create the foreign key from phone to student_phone
+CREATE UNIQUE INDEX PHONE_ID_INDEX
+ON STUDENT_PHONE (PHONE_ID);
+	
+
+DROP TABLE IF EXISTS `employees`.`phone`;
+CREATE TABLE  `employees`.`phone` (
+  `PHONE_ID` int(32) NOT NULL auto_increment,
+  `PHONE_TYPE` varchar(10) default NULL,
+  `PHONE_NUMBER` varchar(20) default NULL,
+  PRIMARY KEY  (`PHONE_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+
+DROP TABLE IF EXISTS `employees`.`student_email`;
+CREATE TABLE  `employees`.`student_email` (
+  `STUDENT_ID` int(32) NOT NULL,
+  `EMAIL_ID` int(32) NOT NULL,
+ KEY `fk_PerStudentEmail` (`STUDENT_ID`),
+ CONSTRAINT `fk_PerStudentEmail` FOREIGN KEY (`STUDENT_ID`) REFERENCES `student` (`STUDENT_ID`) ON DELETE CASCADE  
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `employees`.`email`;
+CREATE TABLE  `employees`.`email` (
+  `EMAIL_ID` int(32) NOT NULL auto_increment,
+  `EMAIL_TYPE` varchar(10) default NULL,
+  `EMAIL_ADDR` varchar(100) default NULL,
+  PRIMARY KEY  (`EMAIL_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+
+DROP TABLE IF EXISTS `employees`.`student_web`;
+CREATE TABLE  `employees`.`student_web` (
+  `STUDENT_ID` int(32) NOT NULL,
+  `WEB_ID` int(32) NOT NULL,
+ KEY `fk_PerStudentWeb` (`STUDENT_ID`),
+ CONSTRAINT `fk_PerStudentWeb` FOREIGN KEY (`STUDENT_ID`) REFERENCES `student` (`STUDENT_ID`) ON DELETE CASCADE  
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `employees`.`web`;
+CREATE TABLE  `employees`.`web` (
+  `WEB_ID` int(32) NOT NULL auto_increment,
+  `WEB_URL` varchar(255) default NULL,
+  PRIMARY KEY  (`WEB_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `employees`.`state`;
+CREATE TABLE  `employees`.`state` (
+  `STATE_ID` int(32) NOT NULL auto_increment,
+  `STATE_ABREV` varchar(5) default NULL,
+  PRIMARY KEY  (`STATE_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `employees`.`country`;
+CREATE TABLE  `employees`.`country` (
+  `COUNTRY_ID` int(32) NOT NULL auto_increment,
+  `COUNTRY_NAME` varchar(255) default NULL,
+  PRIMARY KEY  (`COUNTRY_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `employees`.`student_type`;
+CREATE TABLE  `employees`.`student_type` (
+  `STUDENT_TYPE_ID` int(32) NOT NULL auto_increment,
+  `STUDENT_TYPE` varchar(100) default NULL,
+  PRIMARY KEY  (`STUDENT_TYPE_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+
+
+-- The primary key must be unsigned or you will get the err no 150
+
+-- CREATE TABLE  `employees`.`radioshow` (
+--  `SHOW_ID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+--  `TITLE` VARCHAR(255) NOT NULL,
+--  PRIMARY KEY (`SHOW_ID`) USING BTREE
+-- ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+
+--CREATE TABLE  `employees`.`show_detail` (
+ -- `SHOW_ID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+-- `DESCRIPTION` TEXT NOT NULL,
+-- `ARCHIVE_LISTENS` int NOT NULL,
+-- `LIVE_LISTENS` int NOT NULL,
+-- `LISTED_DATE` DATE NOT NULL,
+-- PRIMARY KEY (`SHOW_ID`) USING BTREE,
+-- CONSTRAINT `FK_STOCK_ID` FOREIGN KEY (`SHOW_ID`) REFERENCES `radioshow` (`SHOW_ID`) ON DELETE CASCADE
+--) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `employees`.`student_radioshow`;
+CREATE TABLE  `employees`.`student_radioshow` (
+  `STUDENT_ID` int(32) NOT NULL,
+  `SHOW_ID` int(32) NOT NULL,
+ KEY `fk_PerStudentEmail` (`STUDENT_ID`),
+ CONSTRAINT `fk_PerStudentRadioShow` FOREIGN KEY (`STUDENT_ID`) REFERENCES `student` (`STUDENT_ID`) ON DELETE CASCADE  
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `employees`.`radioshow`;
+CREATE TABLE  `employees`.`radioshow` (
+  `SHOW_ID` int(32) NOT NULL auto_increment,
+  `TITLE` varchar(255) default NULL,
+  `DESCRIPTION` text default NULL,
+  `ARCHIVE_LISTENS` int NOT NULL,
+  `LIVE_LISTENS` int NOT NULL,
+  `LISTED_DATE` DATE NOT NULL,
+  PRIMARY KEY  (`SHOW_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+CREATE TABLE  `employees`.`keyinfo251` (
+  `KEYINFO251_ID` int(32) NOT NULL auto_increment,
+  `KEYNUMBER` int NOT NULL,
+  `KEYWORD` varchar(128) default NULL,
+  PRIMARY KEY  (`KEYINFO251_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+CREATE TABLE  `employees`.`contact251` (
+  `CONTACT251_ID` int(32) NOT NULL auto_increment,
+  `KEYNUMBER1` int default NULL,
+  `KEYNUMBER2` int default NULL,
+  `LINENUMBER` int NOT NULL,
+  `INFO` text default NULL,
+  PRIMARY KEY  (`CONTACT251_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+CREATE TABLE  `employees`.`pleiadean_mission` (
+  `pleiadean_mission_id` int(32) NOT NULL auto_increment,
+  `KEYNUMBER1` int default NULL,
+  `KEYNUMBER2` int default NULL,
+  `LINENUMBER` int NOT NULL,
+  `INFO` text default NULL,
+  PRIMARY KEY  (`pleiadean_mission_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Email" table="email">
+		<meta attribute="class-description">This class contains student's phone number
+			details.</meta>
+		<id name="emailId" type="long" column="EMAIL_ID">
+			<generator class="native" />
+		</id>
+		<property name="emailType" type="string" length="10" column="EMAIL_TYPE" />
+		<property name="emailAddr" type="string" length="100" column="EMAIL_ADDR" />
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping package="com.dao">
+
+    <class name="Event" table="EVENTS">
+        <id name="id" column="EVENT_ID">
+            <generator class="identity"/>
+        </id>
+        <property name="date" type="timestamp" column="EVENT_DATE"/>
+        <property name="title"/>
+    </class>
+
+</hibernate-mapping>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+    
+        <!-- Properties for the session factory -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/employees</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">6816ms</property>
+        <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+        <property name="c3p0.max_size">10</property>
+        <property name="c3p0.min_size">2</property>
+        <property name="c3p0.timeout">5000</property>
+        <property name="c3p0.max_statements">100</property>
+        <property name="c3p0.idle_test_period">3000</property>
+        <property name="c3p0.acquire_increment">2</property>
+        <property name="c3p0.validate">false</property>
+        <property name="show_sql">false</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="max_fetch_depth">1</property>
+        <property name="bytecode.use_reflection_optimizer">false</property>
+        <property name="jdbc.batch_versioned_data">true</property>
+        <property name="jdbc.use_streams_for_binary">true</property>
+        <property name="cache.use_query_cache">false</property>
+        <property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+
+ 		<mapping resource="event.hbm.xml" />
+ 		<mapping resource="Address.hbm.xml" />
+ 		<mapping resource="Student.hbm.xml" />
+ 		<mapping resource="phone.hbm.xml" />
+ 		<mapping resource="email.hbm.xml" />
+ 		<mapping resource="Web.hbm.xml" />
+ 		<mapping resource="StudentPhone.hbm.xml" />
+ 		<mapping resource="StudentEmail.hbm.xml" />
+ 		<mapping resource="StudentWeb.hbm.xml" />
+ 		<mapping resource="state.hbm.xml" />
+ 		<mapping resource="Country.hbm.xml" />
+ 		<mapping resource="StudentType.hbm.xml" />
+ 		<mapping resource="RadioShow.hbm.xml" />
+		<!-- <mapping resource="ShowDetail.hbm.xml" /> -->
+		<mapping resource="StudentRadioShow.hbm.xml" />
+		<mapping resource="Contact251.hbm.xml" />
+		<mapping resource="PleiadeanMission.hbm.xml"  />
+
+    </session-factory>
+</hibernate-configuration>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Partner" table="PARTNER">
+		<meta attribute="class-description">This class information about the spouse of the person if that info is known</meta>
+		<id name="partnerId" type="long" column="PARTNER_ID">
+			<generator class="foreign">
+				<param name="property">Student</param>
+			</generator>
+			
+		</id>
+		
+		<property name="partnerName" type="string" length="255" column="NAME" />
+	</class>
+</hibernate-mapping>
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Phone" table="PHONE">
+		<meta attribute="class-description">This class contains student's phone number
+			details.</meta>
+		<id name="phoneId" type="long" column="PHONE_ID">
+			<generator class="native" />
+		</id>
+		<property name="phoneType" type="string" length="10" column="PHONE_TYPE" />
+		<property name="phoneNumber" type="string" length="15" column="PHONE_NUMBER" />
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.PleiadeanMission" table="pleiadean_mission">
+		<meta attribute="class-description">This class contains the Contact object
+			details.</meta>
+		<id name="pleiadean_missionId" type="long" column="pleiadean_mission_id">
+			<generator class="native" />
+		</id>
+		<property name="keyNumber1" column="KEYNUMBER1" type="long"  />
+		<property name="keyNumber2" column="KEYNUMBER2" type="long"  />
+		<property name="lineNumber" column="LINENUMBER" type="long"  />
+		<property name="info" column="INFO" type="string" length="1048" />
+		
+		
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 17, 2010 10:39:42 AM by Hibernate Tools 3.2.5.Beta -->
+<hibernate-mapping>
+	<class name="com.dao.RadioShow" table="RADIOSHOW">
+		<meta attribute="class-description">This class radio show information </meta>
+		<id name="showId" type="long" column="SHOW_ID">
+			<generator class="native" />
+		</id>
+		<property name="title" type="string" length="255" column="TITLE" />
+		<property name="description" type="string" length="255" column="DESCRIPTION" />
+		<property name="archiveListens" type="integer" column="ARCHIVE_LISTENS" />
+		<property name="liveListens" type="integer"  column="LIVE_LISTENS" />
+		<property name="listedDate"  type="date" length="10" not-null="true" column="LISTED_DATE" />	
+					
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 19, 2010 4:08:57 PM by Hibernate Tools 3.2.5.Beta -->
+<hibernate-mapping>
+    <class name="com.dao.ShowDetail" table="show_detail">
+        <id name="showId" type="java.lang.Integer">
+            <column name="SHOW_ID" />
+            <generator class="foreign">
+                <param name="property">radioShow</param>
+            </generator>
+        </id>
+        <one-to-one name="radioShow" class="com.dao.RadioShow" constrained="true"></one-to-one>
+
+        <property name="description" type="string">
+            <column name="DESCRIPTION" />
+        </property>
+        
+        <property name="archiveListens" type="integer">
+            <column name="ARCHIVE_LISTENS" />
+        </property>
+ 
+         <property name="liveListens" type="integer">
+            <column name="LIVE_LISTENS" />
+        </property>
+               
+        <property name="listedDate" type="date">
+            <column name="LISTED_DATE" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.State" table="STATE">
+		<meta attribute="class-description">State information</meta>
+		<id name="stateid" type="long" column="STATE_ID">
+			<generator class="native" />
+		</id>
+		<property name="abbrev"  type="string"  length="5" column="STATE_ABREV"  />
+		
+	</class>
+</hibernate-mapping>
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.dao.Student" table="STUDENT">
+        <meta attribute="class-description">This class contains student details.</meta>
+        <id name="studentId" type="long" column="STUDENT_ID">
+            <generator class="identity" />
+        </id>
+        <property name="studentName" type="string" length="100" not-null="true" column="STUDENT_NAME" />
+        <property name="studentInfo" type="string" length="255" not-null="false" column="STUDENT_INFO" />
+        <property name="studentType" type="string" length="100" not-null="false" column="STUDENT_TYPE" />
+        
+        <many-to-one name="studentAddress" class="com.dao.Address" column="STUDENT_ADDRESS" cascade="all" not-null="true" />
+
+        <set name="studentPhoneNumbers" table="STUDENT_PHONE" cascade="all">
+			<key column="STUDENT_ID" />
+			<many-to-many column="PHONE_ID" unique="true" class="com.dao.Phone" />
+		</set>
+        <set name="studentEmailAddresses" table="STUDENT_EMAIL" cascade="all">
+			<key column="STUDENT_ID" />
+			<many-to-many column="EMAIL_ID" unique="true" class="com.dao.Email" />
+		</set>
+		
+	    <set name="studentWebAddresses" table="STUDENT_WEB" cascade="all">
+			<key column="STUDENT_ID" />
+			<many-to-many column="WEB_ID" unique="true" class="com.dao.Web" />
+		</set>
+		
+	    <set name="studentRadioShows" table="STUDENT_RADIOSHOW" cascade="all">
+			<key column="STUDENT_ID" />
+			<many-to-many column="SHOW_ID" unique="true" class="com.dao.RadioShow" />
+		</set>		
+
+    </class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.StudentEmail" table="STUDENT_EMAIL">
+	
+		<meta attribute="class-description">This class contains student's email
+			details.</meta>
+			
+		<id name="emailId" type="long" column="EMAIL_ID">
+			<generator class="native" />
+		</id>
+		<property name="studentId"  type="long"  column="STUDENT_ID"  />
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.StudentPhone" table="STUDENT_PHONE">
+		<meta attribute="class-description">This class contains student's phone number
+			details.</meta>
+		<id name="phoneId" type="long" column="PHONE_ID">
+			<generator class="native" />
+		</id>
+		<property name="studentId"  type="long"  column="STUDENT_ID"  />
+	</class>
+</hibernate-mapping>
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.StudentRadioShow" table="STUDENT_RADIOSHOW">
+	
+		<meta attribute="class-description">This class contains student's radio show</meta>
+			
+		<id name="radioShowId" type="long" column="SHOW_ID">
+			<generator class="native" />
+		</id>
+		<property name="studentId"  type="long"  column="STUDENT_ID"  />
+	</class>
+</hibernate-mapping>
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.StudentType" table="STUDENT_TYPE">
+		<meta attribute="class-description">Student Types Friend, Family, Radio Show, Stamper</meta>
+		<id name="studenttypeid" type="long" column="STUDENT_TYPE_ID">
+			<generator class="native" />
+		</id>
+		<property name="studentType"  type="string"  length="100" column="STUDENT_TYPE"  />
+		
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.StudentWeb" table="STUDENT_WEB">
+		<meta attribute="class-description">This class contains student's web site
+			details.</meta>
+		<id name="webid" type="long" column="WEB_ID">
+			<generator class="native" />
+		</id>
+		<property name="studentId"  type="long"  column="STUDENT_ID"  />
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Web" table="WEB">
+		<meta attribute="class-description">This class contains student's web
+			details.</meta>
+		<id name="webid" type="long" column="WEB_ID">
+			<generator class="native" />
+		</id>
+
+		<property name="url" type="string" length="255" column="WEB_URL" />
+	</class>
+</hibernate-mapping>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping package="com.dao">
+    <class name="Zip" table="zip">
+    
+        <id name="id" column="zipid">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="zipCode"  type="string"  column="zipcode"  />
+		<property name="customerid"  type="integer"  column="customerid"  />
+                 
+    </class>
+</hibernate-mapping>
+

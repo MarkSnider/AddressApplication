@@ -1,0 +1,76 @@
+		
+			.customers
+			{
+			font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+			width:600px;
+			border-collapse:collapse;
+			
+			}
+			.customers td, .customers th 
+			{
+			
+			font-size:x-small;
+			border:1px solid #FFA500;			
+			padding:3px 7px 2px 7px;
+			}
+			.customers th 
+			{
+			font-size:1.1em;
+			text-align:left;
+			padding-top:5px;
+			padding-bottom:4px;
+ 			background-color: #FF9933; 
+ 			color:#fff; 
+			}
+			.customers tr.alt td 
+			{
+			color:#000;
+			background-color: #FFA500;
+			}
+			
+			tr.odd {background-color: #FFFFFF}
+			tr.even {background-color: #F8F8F8}	
+			
+			/* Allows us to over-ride width where necessary */
+			.largecustomers {
+			  width: 90%;
+			}			
+		
+			/* Allows us to over-ride width where necessary */
+			.smallcustomers {
+			  width: 35%;
+			}	
+			
+			
+/*********** USED ON EDIT BECAUSE OF SURROUNDING DIVS WE HAVE NO WIDTH *************/
+			.customersnowidth
+			{
+			font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+			
+			border-collapse:collapse;
+			
+			}
+			.customersnowidth td, .customersnowidth th 
+			{
+			
+			font-size:x-small;
+			border:1px solid #FFA500;			
+			padding:3px 7px 2px 7px;
+			}
+			.customersnowidth th 
+			{
+			font-size:1.1em;
+			text-align:left;
+			padding-top:5px;
+			padding-bottom:4px;
+ 			background-color: #FF9933; 
+ 			color:#fff; 
+			}
+			.customersnowidth tr.alt td 
+			{
+			color:#000;
+			background-color: #FFA500;
+			}
+			
+			tr.odd {background-color: #FFFFFF}
+			tr.even {background-color: #F8F8F8}	

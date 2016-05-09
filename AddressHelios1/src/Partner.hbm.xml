@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.Partner" table="PARTNER">
+		<meta attribute="class-description">This class information about the spouse of the person if that info is known</meta>
+		<id name="partnerId" type="long" column="PARTNER_ID">
+			<generator class="foreign">
+				<param name="property">Student</param>
+			</generator>
+			
+		</id>
+		
+		<property name="partnerName" type="string" length="255" column="NAME" />
+	</class>
+</hibernate-mapping>
+

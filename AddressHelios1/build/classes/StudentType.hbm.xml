@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.dao.StudentType" table="STUDENT_TYPE">
+		<meta attribute="class-description">Student Types Friend, Family, Radio Show, Stamper</meta>
+		<id name="studenttypeid" type="long" column="STUDENT_TYPE_ID">
+			<generator class="native" />
+		</id>
+		<property name="studentType"  type="string"  length="100" column="STUDENT_TYPE"  />
+		
+	</class>
+</hibernate-mapping>

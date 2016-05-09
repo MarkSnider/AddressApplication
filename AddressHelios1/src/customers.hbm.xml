@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.main">
+  <class name="customers" table="customers">
+  
+        <id name="customerid" column="customerid">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="lastname" type="string" column="lastname" />
+        <property name="firstname" type="string" column="firstname" />
+        <property name="middlename" type="string" column="middlename" />
+        
+        <set name="emailAddresses" table="email">
+            <key column="customerid"/>
+            <element type="string" column="EMAIL_ADDR"/>
+        </set>         
+        
+        <set name="phoneNumbers" table="phone">
+            <key column="customerid"/>
+            <element type="string" column="phone_number"/>
+        </set> 
+        
+        <set name="cities" table="city">
+            <key column="customerid"/>
+            <element type="string" column="name"/>
+        </set>
+                 
+        <set name="streets" table="address">
+            <key column="customerid"/>
+            <element type="string" column="street"/>
+        </set>
+        
+        <set name="states" table="state">
+            <key column="customerid"/>
+            <element type="string" column="name"/>
+        </set>        
+     
+        <set name="zips" table="zip">
+            <key column="customerid"/>
+            <element type="string" column="zipcode"/>
+        </set>        
+  </class>
+</hibernate-mapping>
